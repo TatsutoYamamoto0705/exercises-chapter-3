@@ -50,3 +50,43 @@ class Polynomial:
 
     def __radd__(self, other):
         return self + other
+
+    def __sub__(self, other):
+
+        if isinstance(other, Number):
+            return Polynomial((self.coefficients[0]-other,) + self.coefficients[1:])
+        
+        elif isinstance(other, Polynomial):
+            other_minus = tuple(-c for c in other.coefficients)
+            return self + Polynomial(other_minus)
+
+        else:
+            return NotImplemented
+    
+    def __rsub__(self, other):
+        minus = tuple(-c for c in self.coefficients)
+        return other + Polynomial(minus)
+   
+    def __mul__(self, other):
+
+        if isinstance(other, Number):
+            mult = tuple([c*other for c in self.coefficients])
+            return Polynomial(mult)
+        
+        elif isinstance(other, Polynomial):
+            mults = [[0]*i for i in range(self.degree()+1)]
+            final_mults = []
+            for i in mults:
+                i += [*other.coefficients]
+            for i in range(self.degree()+1):
+                final_mults.append(list(map(lambda x: x*self.coefficients[i], mults[i])))
+            final_mults = [tuple(i) for i in final_mults]
+            final_mults = [Polynomial(i) for i in final_mults]
+            return sum(final_mults)
+        
+        else:
+            return NotImplemented
+    
+    def __rmul__(self, other):
+        return self * other
+
