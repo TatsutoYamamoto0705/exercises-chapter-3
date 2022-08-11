@@ -112,3 +112,19 @@ class Polynomial:
         else:
             return NotImplemented
 
+    def dx(self):
+
+        if self.degree() == 0:
+            tup = tuple([0])
+            print(tup)
+            return Polynomial(tup)
+        else:
+            deriv = []
+            for i,v in enumerate(self.coefficients[1:], 1):
+                deriv.append(i*v)
+            return Polynomial(tuple(deriv))
+
+
+def derivative(poly):
+    return poly.dx()
+
