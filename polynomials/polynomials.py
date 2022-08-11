@@ -90,3 +90,25 @@ class Polynomial:
     def __rmul__(self, other):
         return self * other
 
+    def __pow__(self, other):
+
+        if isinstance(other, Number):
+            multiplier = self
+            for i in range(other-1):
+                self = self*multiplier
+            return self
+
+        else:
+            return NotImplemented
+
+    def __call__(self, other):
+
+        if isinstance(other, Number):
+            val = self.coefficients[0]
+            for i, v in enumerate(self.coefficients[1:]):
+                val += v*(other**(i+1))
+            return val
+
+        else:
+            return NotImplemented
+
